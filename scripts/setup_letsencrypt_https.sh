@@ -1,19 +1,15 @@
 #!/bin/bash
-# Solicita un certificado de Let's Encrypt con Certbot y lo configura en Apache
+# OPCIONAL: HTTPS con certificado autofirmado (el navegador mostrará un aviso)
 set -ex
-
 source "$(dirname "$0")/.env"
 
-snap install core
-snap refresh core
-apt remove -y certbot || true
-snap install --classic certbot
-ln -sf /snap/bin/certbot /usr/bin/certbot
+a2enmod ssl
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/prestashop.key \
+  -out /etc/ssl/certs/prestashop.crt \
+  -subj "/C=ES/ST=Extremadura/L=Merida/O=Practica/CN=${DOMAIN}"
 
-certbot --apache \
-  -m "$LE_EMAIL" \
-  --agree-tos \
-  --no-eff-email \
-  -d "$DOMAIN" \
-  --non-interactive \
-  --redirect
+sed -i 's#/etc/ssl/certs/ssl-cert-snakeoil.pem#/etc/ssl/certs/prestashop.crt#; s#/etc/ssl/private/ssl-cert-snakeoil.key#/etc/ssl/private/prestashop.key#' \
+  /etc/apache2/sites-available/default-ssl.conf
+a2ensite default-ssl
+systemctl restart apache2
