@@ -8,26 +8,28 @@ En esta práctica se instala la aplicación web **PrestaShop** sobre una pila LA
 
 Se utiliza la máquina **Server-IAW** de VirtualBox, con Ubuntu de 64 bits. El resto de máquinas de otras prácticas se mantienen apagadas para no consumir recursos.
 
+![Captura 1](img/Captura%20de%20pantalla%202026-11-18%20101803.png)
+
 
 La máquina tiene **4096 MB de RAM**, superior a los 2 GB mínimos que necesita PrestaShop.
 
-![Memoria RAM de la máquina](img/03-vm-ram.png)
+![Captura 2](img/Captura%20de%20pantalla%202026-11-18%20095638.png)
 
 ### Configuración de red
 
 El adaptador de red se configura en **modo puente (Adaptador puente)** para que la máquina obtenga una IP de la red local y se pueda acceder a ella desde el equipo anfitrión.
 
-![Configuración de red en modo puente](img/04-vm-red-puente.png)
+![Captura 3](img/Captura%20de%20pantalla%202026-11-18%20095658.png)
 
 Con `ip a` se comprueba la IP de la máquina virtual: **192.168.100.94**.
 
-![Comando ip a](img/05-ip-a.png)
+![Captura 4](img/Captura%20de%20pantalla%202026-11-18%20095920.png)
 
 Desde el equipo anfitrión se comprueba la conectividad con `ping`.
 
-![Ping a la máquina virtual](img/06-ping.png)
+![Captura 4](img/Captura%20de%20pantalla%202026-11-18%20102016.png)
 
-## 4. Descarga del repositorio
+## 4. Descarga del repositorio  /por aqui voy/
 
 Se instala Git y se clona el repositorio en la máquina virtual.
 
