@@ -37,7 +37,7 @@ sudo -u www-data php index_cli.php \
   --password="${PS_ADMIN_PASSWORD}" \
   --language="${PS_LANGUAGE}" \
   --country="${PS_COUNTRY}" \
-  --ssl=1
+  --ssl=${PS_SSL}
 
 # 5. Limpieza: el directorio install debe eliminarse
 rm -rf /var/www/html/install
