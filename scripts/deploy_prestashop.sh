@@ -25,8 +25,17 @@ rm -rf /var/www/html/*
 cp -r /tmp/ps_final/* /var/www/html/
 chown -R www-data:www-data /var/www/html
 
-# 4. Instalación por CLI
-cd /var/www/html/install
+# 4. Instalación por CLI (soporta install o install-dev)
+if [ -d "/var/www/html/install" ]; then
+    INSTALL_DIR="/var/www/html/install"
+elif [ -d "/var/www/html/install-dev" ]; then
+    INSTALL_DIR="/var/www/html/install-dev"
+else
+    echo "ERROR: No se encuentra el directorio install ni install-dev"
+    exit 1
+fi
+
+cd "$INSTALL_DIR"
 sudo -u www-data php index_cli.php \
   --domain="${DOMAIN}" \
   --db_server=localhost \
@@ -40,8 +49,8 @@ sudo -u www-data php index_cli.php \
   --country="${PS_COUNTRY}" \
   --ssl=${PS_SSL}
 
-# 5. Limpieza: el directorio install debe eliminarse
-rm -rf /var/www/html/install
+# 5. Limpieza: eliminar carpetas de instalación
+rm -rf /var/www/html/install /var/www/html/install-dev
 chown -R www-data:www-data /var/www/html
 systemctl restart apache2
 
