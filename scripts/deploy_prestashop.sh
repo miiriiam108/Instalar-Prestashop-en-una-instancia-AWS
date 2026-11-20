@@ -25,16 +25,22 @@ rm -rf /var/www/html/*
 cp -r /tmp/ps_final/* /var/www/html/
 chown -R www-data:www-data /var/www/html
 
-# 4. Instalación por CLI (soporta install o install-dev)
+# 4. Instalar Composer y dependencias si existe install-dev
 if [ -d "/var/www/html/install" ]; then
     INSTALL_DIR="/var/www/html/install"
 elif [ -d "/var/www/html/install-dev" ]; then
     INSTALL_DIR="/var/www/html/install-dev"
+    if ! command -v composer >/dev/null 2>&1; then
+        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    fi
+    cd "$INSTALL_DIR"
+    COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist
 else
     echo "ERROR: No se encuentra el directorio install ni install-dev"
     exit 1
 fi
 
+# 5. Instalación por CLI
 cd "$INSTALL_DIR"
 sudo -u www-data php index_cli.php \
   --domain="${DOMAIN}" \
@@ -49,7 +55,7 @@ sudo -u www-data php index_cli.php \
   --country="${PS_COUNTRY}" \
   --ssl=${PS_SSL}
 
-# 5. Limpieza: eliminar carpetas de instalación
+# 6. Limpieza: eliminar carpetas de instalación
 rm -rf /var/www/html/install /var/www/html/install-dev
 chown -R www-data:www-data /var/www/html
 systemctl restart apache2
