@@ -40,3 +40,29 @@ Se ejecuta `install_lamp.sh` (con las variables configuradas en `.env`) para ins
 2. Comprobamos en las tablas de `phppsinfo` que los ajustes de PHP (`memory_limit = 256M`, `max_input_vars = 5000`, `post_max_size = 128M`, `upload_max_filesize = 128M`) y los requisitos necesarios aparecen en verde:
 
 ![Captura 7](img/Captura%20de%20pantalla%202026-11-19%20203027.png)
+
+## 4. Despliegue de PrestaShop (Código fuente e instalación)
+
+En este apartado se utiliza la última versión disponible de PrestaShop (**9.2.1**), obtenida desde el repositorio oficial de GitHub (`[https://github.com/PrestaShop/PrestaShop/tags](https://github.com/PrestaShop/PrestaShop/tags)`).
+
+1. Configuramos las variables de entorno en el archivo `.env` (`DOMAIN=192.168.1.11`, `PS_VERSION=9.2.1`, credenciales de base de datos y datos del administrador)[cite: 5].
+
+![Captura 8](img/Captura%20de%20pantalla%202026-11-20%20135440.png)
+
+2. Ejecutamos el script `deploy_prestashop.sh` para crear la base de datos `prestashop` y el usuario `ps_user` en MySQL, descomprimir el código fuente en `/var/www/html`, lanzar la instalación automatizada por línea de comandos (`index_cli.php`) y eliminar el directorio `install` por seguridad[cite: 6].
+
+```bash
+sudo ./deploy_prestashop.sh
+```
+![Captura 9](img/Captura%20de%20pantalla%202026-11-20%20135705.png)
+
+
+## 5. Comprobación y resultado final
+
+1. Accedemos desde el navegador al **Front Office** (tienda pública) a través de `http://192.168.1.11` para verificar que PrestaShop carga correctamente[cite: 5].
+
+![Captura 10](ruta_a_tu_captura_10.png)
+
+2. Accedemos al **Back Office** (panel de administración) usando la ruta generada (`[http://192.168.1.11/admin](http://192.168.1.11/admin)...`) e iniciamos sesión con las credenciales configuradas en `.env`[cite: 5, 6].
+
+![Captura 11](ruta_a_tu_captura_11.png)
