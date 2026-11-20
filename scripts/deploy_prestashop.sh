@@ -1,27 +1,28 @@
 #!/bin/bash
-# Descarga e instala PrestaShop desde CLI en /var/www/html
 set -ex
 
 source "$(dirname "$0")/.env"
 
 # 1. Base de datos
-mysql -u root -p"${DB_ROOT_PASSWORD}" <<SQL
-DROP DATABASE IF EXISTS \`${DB_NAME}\`;
-CREATE DATABASE \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
-GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'localhost';
-FLUSH PRIVILEGES;
-SQL
+mysql -u root -p"${DB_ROOT_PASSWORD}" -e "DROP DATABASE IF EXISTS ${DB_NAME}; CREATE DATABASE ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'; GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost'; FLUSH PRIVILEGES;"
 
-# 2. Descarga del código fuente
-cd /tmp
-rm -rf ps_download && mkdir ps_download && cd ps_download
-wget -q "https://github.com/PrestaShop/PrestaShop/releases/download/${PS_VERSION}/prestashop_${PS_VERSION}.zip"
-unzip -q "prestashop_${PS_VERSION}.zip"   # contiene prestashop.zip
+# 2. Preparar código fuente desde el ZIP local
+rm -rf /tmp/ps_extract /tmp/ps_final && mkdir -p /tmp/ps_extract /tmp/ps_final
+unzip -q -o /home/miriam/descargas_ps/PrestaShop-${PS_VERSION}.zip -d /tmp/ps_extract
+
+SRC_DIR="/tmp/ps_extract/PrestaShop-${PS_VERSION}"
+if [ ! -d "$SRC_DIR" ]; then
+    SRC_DIR="/tmp/ps_extract"
+fi
+if [ -f "$SRC_DIR/prestashop.zip" ]; then
+    unzip -q -o "$SRC_DIR/prestashop.zip" -d /tmp/ps_final
+else
+    cp -r "$SRC_DIR"/* /tmp/ps_final/
+fi
 
 # 3. Copia al directorio raíz de Apache
-rm -f /var/www/html/index.html
-unzip -q -o prestashop.zip -d /var/www/html
+rm -rf /var/www/html/*
+cp -r /tmp/ps_final/* /var/www/html/
 chown -R www-data:www-data /var/www/html
 
 # 4. Instalación por CLI
