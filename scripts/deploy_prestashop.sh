@@ -33,8 +33,7 @@ elif [ -d "/var/www/html/install-dev" ]; then
     if ! command -v composer >/dev/null 2>&1; then
         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     fi
-    cd "$INSTALL_DIR"
-    COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist
+    COMPOSER_ALLOW_SUPERUSER=1 composer install --working-dir=/var/www/html --no-interaction --prefer-dist
 else
     echo "ERROR: No se encuentra el directorio install ni install-dev"
     exit 1
