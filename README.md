@@ -149,7 +149,7 @@ el registro aparece activo en No-IP (`prestashop-miriam.bounceme.net`, tipo `A`,
 
 `nslookup` devuelve `prestashop-miriam.bounceme.net` resolviendo hacia `45.13.201.205` a través del resolvedor `127.0.0.53`.
 
-## 13. Instalación automatizada de LAMP y phpMyAdmin mediante script
+## 12. Instalación automatizada de LAMP y phpMyAdmin mediante script
 
 1. Me conecto por SSH desde Windows a mi máquina virtual Ubuntu 26.04.1 LTS (`192.168.1.11`) y accedo a `~/Instalar-Prestashop-en-una-instancia-AWS/scripts` para preparar y ejecutar `install_lamp.sh` (`chmod +x install_lamp.sh` y `sudo ./install_lamp.sh`), automatizando la instalación de Apache, MySQL, PHP 8.5 con sus extensiones, los ajustes de `php.ini`, el *virtual host* (`000-default.conf`), **phpMyAdmin** y PhpPsInfo.
 2. Durante el proceso resuelvo el aviso de autenticación de `root@localhost` en MySQL aplicando `caching_sha2_password` y completo las opciones interactivas de **phpMyAdmin** (`apache2` y `dbconfig-common`), así como los pasos finales de descarga de PhpPsInfo, permisos sobre `/var/www/html` y reinicio de Apache.
@@ -162,7 +162,7 @@ el registro aparece activo en No-IP (`prestashop-miriam.bounceme.net`, tipo `A`,
 `apache2.service` y `mysql.service` quedan en estado `active (running)` y phpMyAdmin responde correctamente en el navegador.
 
 
-## 14. Instalación de Certbot y configuración SSL/TLS
+## 13. Instalación de Certbot y configuración SSL/TLS
 
 1. Instalo y compruebo `certbot` y `python3-certbot-apache`, verificando que el temporizador `certbot.timer` está activo (`certbot --version` y `sudo systemctl status certbot.timer --no-pager`).
 
@@ -186,7 +186,7 @@ el registro aparece activo en No-IP (`prestashop-miriam.bounceme.net`, tipo `A`,
 ![Captura 29](img/Captura%20de%20pantalla%202026-11-21%20182843.png)
 
 
-## Ejercicio 15: Script de automatización de la instalación y configuración de PrestaShop
+## 14: Script de automatización de la instalación y configuración de PrestaShop
 
 1. Redacto el script de Bash `deploy_prestashop.sh` (junto con el archivo `.env` de configuración) en el repositorio de GitHub (`Instalar-Prestashop-en-una-instancia-AWS/scripts/`) para automatizar la preparación de la base de datos, extracción de PrestaShop, permisos, instalación por CLI y limpieza posterior, dejando su ejecución pendiente para el final de la práctica.
 
