@@ -19,7 +19,7 @@ La máquina tiene **4096 MB de RAM**, superior a los 2 GB mínimos que necesita 
 
 El adaptador de red se configura en **modo puente** para que la máquina obtenga una IP de la red local y se pueda acceder a ella desde el equipo anfitrión.
 
-![Captura 3](img/Captura%20de%20pantalla%202026-11-18%20095658.png)
+![Captura 3](img/Captura%20de%20pantalla%202026-11-21%20195920.png)
 
 Se comprueba la IP de la máquina virtual: **192.168.1.11**.
 
