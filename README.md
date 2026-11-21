@@ -189,7 +189,7 @@ el registro aparece activo en No-IP (`prestashop-miriam.bounceme.net`, tipo `A`,
 3. Pruebo el reto alternativo DNS-01 (`sudo certbot certonly --manual --preferred-challenges dns -d prestashop-miriam.bounceme.net`) y compruebo con `dig @8.8.8.8 +short TXT _acme-challenge.prestashop-miriam.bounceme.net` que no aparece el registro `TXT` por las limitaciones del subdominio gratuito `*.bounceme.net` en No-IP.
 
 
-![Captura 27](img/Captura%20de%20pantalla%202026-11-21%20182555.png)
+![Captura 27](img/Captura%20de%20pantalla%202026-11-21%20182255.png)
 
 4. Para activar HTTPS (`443`) en el entorno de pruebas, ejecuto `sudo ./setup_letsencrypt_https.sh` y verifico la conexión segura y el certificado generado con `curl -kI https://192.168.1.11` y `openssl x509 -in /etc/ssl/certs/prestashop.crt -noout -subject -dates`.
 
