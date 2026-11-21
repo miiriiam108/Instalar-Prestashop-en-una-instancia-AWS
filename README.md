@@ -57,19 +57,7 @@ sudo ./deploy_prestashop.sh
 
 ![Captura 9](img/Captura%20de%20pantalla%202026-11-20%20135705.png)
 
-
-## 5. Comprobación y resultado final
-
-1. Accedo desde el navegador al **Front Office** a través de `http://192.168.1.11` para verificar que PrestaShop carga correctamente.
-
-![Captura 10](ruta_a_tu_captura_10.png)
-
-2. Accedo al **Back Office** (panel de administración) usando la ruta generada e inicio sesión con las credenciales configuradas en `.env`.
-
-![Captura 11](ruta_a_tu_captura_11.png)
-
-
-## 6. Comprobación de memoria RAM e IP de la máquina virtual
+## 5. Comprobación de memoria RAM e IP de la máquina virtual
 
 1. Arranco la máquina virtual en VirtualBox y abro la terminal de Ubuntu.
 2. Ejecuto `free -h` y `ip -br a` para comprobar la RAM total asignada y la dirección IP activa en la red.
@@ -78,7 +66,7 @@ sudo ./deploy_prestashop.sh
 
 Como vemos tiene mas de 2GB de memoria.
 
-## 7. Sistema operativo base equivalente a Ubuntu Server AMI
+## 6. Sistema operativo base equivalente a Ubuntu Server AMI
 
 1. En lugar de seleccionar una Community AMI de Ubuntu Server en AWS EC2, se usa una máquina virtual (IP asignada `192.168.1.11/24` en `enp0s3`).
 2. Compruebo la versión exacta de Ubuntu instalada ejecutando `cat /etc/os-release`
@@ -87,7 +75,7 @@ Como vemos tiene mas de 2GB de memoria.
 
 La salida muestra `PRETTY_NAME="Ubuntu 26.04.1 LTS"` (`VERSION_ID="26.04"`).
 
-## 8. Configuración de puertos de red: SSH, HTTP y HTTPS (Tarea 3)
+## 7. Configuración de puertos de red: SSH, HTTP y HTTPS (Tarea 3)
 
 1. Como trabajo en una máquina virtual local con adaptador puente en lugar de un *Security Group* de AWS EC2, configuro los puertos directamente con `ufw` en Ubuntu.
 2. Permito el tráfico entrante por TCP para `22/tcp` (SSH), `80/tcp` (HTTP) y `443/tcp` (HTTPS) y activo el cortafuegos.
@@ -100,7 +88,7 @@ La salida muestra `PRETTY_NAME="Ubuntu 26.04.1 LTS"` (`VERSION_ID="26.04"`).
 
 `Status: active` con las reglas `22/tcp`, `80/tcp` y `443/tcp` permitidas (`ALLOW IN`) y los servicios escuchando en el sistema.
 
-## 9. Creación de par de claves SSH y conexión con la máquina virtual (Tarea 4)
+## 8. Creación de par de claves SSH y conexión con la máquina virtual (Tarea 4)
 
 1. Como trabajo en local con VirtualBox en lugar de generar un par de claves `.pem` en AWS EC2, creo la carpeta `.ssh` en mi equipo Windows y genero el par de claves SSH (privada `id_ed25519_prestashop` y pública `id_ed25519_prestashop.pub`):
 
@@ -121,7 +109,7 @@ Acepto la huella del host (yes) al conectar por primera vez y pruebo el acceso r
 
 inicio sesión directamente en la terminal de la máquina virtual (miriam@miriam:~$, sobre Ubuntu 26.04.1 LTS con IP 192.168.1.11) sin que me vuelva a pedir contraseña.
 
-## 10. Dirección IP fija / equivalente a IP elástica en la máquina virtual (Tarea 5)
+## 9. Dirección IP fija / equivalente a IP elástica en la máquina virtual (Tarea 5)
 
 1. En AWS EC2 se asigna una *Elastic IP* para mantener una dirección IP pública constante; en mi entorno local con VirtualBox (Adaptador puente) utilizo el mismo enfoque para mantener la dirección **`192.168.1.11`** en la interfaz `enp0s3` (`08:00:27:c8:ad:d6`) de **Ubuntu 26.04.1 LTS**.
 2. Reviso la configuración de red con `sudo ls -la /etc/netplan/` y `sudo cat /etc/netplan/*.yaml`, comprobando que el archivo `00-installer-config.yaml` pertenecía a `root` y tenía `dhcp4: true`.
@@ -135,7 +123,7 @@ inicio sesión directamente en la terminal de la máquina virtual (miriam@miriam
 la interfaz `enp0s3` mantiene `192.168.1.11/24` y la conexión SSH desde Windows sigue operativa sin cambiar de IP.
 
 
-## 11. Registro de nombre de dominio gratuito 
+## 10. Registro de nombre de dominio gratuito 
 
 1. Accedo a **No-IP** e inicio sesión en mi cuenta.
 
@@ -152,7 +140,7 @@ la interfaz `enp0s3` mantiene `192.168.1.11/24` y la conexión SSH desde Windows
 el registro aparece activo en No-IP (`prestashop-miriam.bounceme.net`, tipo `A`, contenido `45.13.201.205`) y resuelve correctamente por DNS.
 
 
-## 12. Configuración de registros DNS hacia la dirección IP (Tarea 7)
+## 11. Configuración de registros DNS hacia la dirección IP (Tarea 7)
 
 1. En VirtualBox (Ubuntu 26.04.1 LTS en `192.168.1.11`), configuro el registro `A` de `prestashop-miriam.bounceme.net` en No-IP apuntando a `45.13.201.205`.
 2. Compruebo la resolución del nombre de dominio desde la terminal mediante `nslookup prestashop-miriam.bounceme.net`.
